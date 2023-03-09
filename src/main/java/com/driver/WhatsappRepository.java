@@ -22,6 +22,8 @@ public class WhatsappRepository {
 
     HashMap<Date, List<Message>> dateMessageMap;
 
+    Group userGroup;
+
     public WhatsappRepository() {
         this.groupMessageMap = new HashMap<Group, List<Message>>();  // group and all messages in that group
 
@@ -37,6 +39,8 @@ public class WhatsappRepository {
         this.userMap = new HashMap<String, User>();   // mob no is unique key
 
         this.dateMessageMap = new HashMap<Date, List<Message>>();
+
+        this.userGroup = null;
     }
 
 
@@ -150,7 +154,6 @@ public class WhatsappRepository {
 //    }
 
     //    User foundUser = null;
-    Group userGroup = null;
     private boolean checkUserInAllGroups(User user) {
         for (Group group : groupUserMap.keySet()) {
             List<User> users = groupUserMap.get(group);
