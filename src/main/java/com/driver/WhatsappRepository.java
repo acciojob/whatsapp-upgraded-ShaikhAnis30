@@ -151,6 +151,20 @@ public class WhatsappRepository {
 
     //    User foundUser = null;
     Group userGroup = null;
+    private boolean checkUserInAllGroups(User user) {
+        for (Group group : groupUserMap.keySet()) {
+            List<User> users = groupUserMap.get(group);
+            for (User user1 : users) {
+                if(user1.equals(user)) {
+//                    foundUser = user1;
+                    userGroup = group;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //remove user
     public int removeUser(User user) throws Exception {
         //If the user is not found in any group, the application will throw an exception.
@@ -186,19 +200,7 @@ public class WhatsappRepository {
         return updatedUsersInGroup + updatedMessagesInGroup + updatedMessagesOfAllGroups;
     }
 
-    private boolean checkUserInAllGroups(User user) {
-        for (Group group : groupUserMap.keySet()) {
-            List<User> users = groupUserMap.get(group);
-            for (User user1 : users) {
-                if(user1.equals(user)) {
-//                    foundUser = user1;
-                    userGroup = group;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
 
     //find messages between start and end date
     public String findMessage(Date start, Date end, int k) throws Exception {
