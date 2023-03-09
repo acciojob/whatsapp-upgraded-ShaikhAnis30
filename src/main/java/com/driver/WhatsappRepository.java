@@ -155,7 +155,7 @@ public class WhatsappRepository {
     public int removeUser(User user) throws Exception {
         //If the user is not found in any group, the application will throw an exception.
         if(!checkUserInAllGroups(user))
-            throw new Exception("User Not Found");
+            throw new Exception("User not found");
         else { //If the user is found in a group and is the admin, the application will throw an exception.
             if (adminMap.get(userGroup).equals(user))
                 throw new Exception("Cannot remove admin");
