@@ -49,7 +49,7 @@ public class WhatsappRepository {
         if(!userMap.containsKey(mobile))
             userMap.put(mobile, new User(name, mobile));
         else
-            throw new Exception("User already Exist");
+            throw new Exception("User already exists");
 
         return "SUCCESS";
     }
@@ -118,40 +118,40 @@ public class WhatsappRepository {
 
 
     //Remove a user from a group by providing the user
-//    public int removeUser(User user) throws Exception {
-//        int updatedUsersInGroup = 0;
-//        int updatedMessagesInGroup = 0;
-//        int overallMessages = 0;
-//        // i will traverse in all groups and if in some group i found this user then that will be the Group
-//        for (Group group : groupUserMap.keySet()) {
-//            List<User> userListOfGroup = groupUserMap.get(group);
-//            for (User user1 : userListOfGroup) {  // User list of all groups
-//                if(user1.equals(user)) { // so this is my Group of Interest
-//                    if(adminMap.get(group).equals(user)) throw new Exception("Cannot remove admin");
-//                    // not a admin
-//                    userListOfGroup.remove(user);
-//                    updatedUsersInGroup = userListOfGroup.size();
-//
-//                    // now i will delete all messages of this user
-//                    List<Message> messageList = groupMessageMap.get(group);  // all messages of this group
-//                    for (Message message : senderMap.keySet()) {  // map which have all messages with its user
-//                        if(senderMap.get(message).equals(user)) {  // user of this message is same as our user then,
-//                            for (Message message1 : messageList) {  // this loop will remove all messages of this User
-//                                if(message1.equals(message)) messageList.remove(message);
-//                            }
-//                            senderMap.remove(message); // also removed from sender map
-//                            // now all processing done so,
-//                            break;
-//                        }
-//                    }
-//                    updatedMessagesInGroup = messageList.size();
-//                    overallMessages = senderMap.size();
-//                }
-//            }
-//        }
-//
-//        return updatedUsersInGroup + updatedMessagesInGroup + overallMessages;
-//    }
+    public int removeUser(User user) throws Exception {
+        int updatedUsersInGroup = 0;
+        int updatedMessagesInGroup = 0;
+        int overallMessages = 0;
+        // i will traverse in all groups and if in some group i found this user then that will be the Group
+        for (Group group : groupUserMap.keySet()) {
+            List<User> userListOfGroup = groupUserMap.get(group);
+            for (User user1 : userListOfGroup) {  // User list of all groups
+                if(user1.equals(user)) { // so this is my Group of Interest
+                    if(adminMap.get(group).equals(user)) throw new Exception("Cannot remove admin");
+                    // not a admin
+                    userListOfGroup.remove(user);
+                    updatedUsersInGroup = userListOfGroup.size();
+
+                    // now i will delete all messages of this user
+                    List<Message> messageList = groupMessageMap.get(group);  // all messages of this group
+                    for (Message message : senderMap.keySet()) {  // map which have all messages with its user
+                        if(senderMap.get(message).equals(user)) {  // user of this message is same as our user then,
+                            for (Message message1 : messageList) {  // this loop will remove all messages of this User
+                                if(message1.equals(message)) messageList.remove(message);
+                            }
+                            senderMap.remove(message); // also removed from sender map
+                            // now all processing done so,
+                            break;
+                        }
+                    }
+                    updatedMessagesInGroup = messageList.size();
+                    overallMessages = senderMap.size();
+                }
+            }
+        }
+
+        return updatedUsersInGroup + updatedMessagesInGroup + overallMessages;
+    }
 
     //    User foundUser = null;
     private boolean checkUserInAllGroups(User user) {
@@ -169,39 +169,39 @@ public class WhatsappRepository {
     }
 
     //remove user
-    public int removeUser(User user) throws Exception {
-        //If the user is not found in any group, the application will throw an exception.
-        if(!checkUserInAllGroups(user))
-            throw new Exception("User not found");
-        else { //If the user is found in a group and is the admin, the application will throw an exception.
-            if (adminMap.get(userGroup).equals(user))
-                throw new Exception("Cannot remove admin");
-        }
-
-        //valid user to remove
-        if(groupUserMap.containsKey(userGroup)) {
-            groupUserMap.get(userGroup).remove(user); //taken list and removed user
-        }
-        //remove all its messages
-        for (Message message : senderMap.keySet()) {
-            if(senderMap.get(message).equals(user)) {
-                senderMap.remove(message); //message is a key
-                dateMessageMap.get(message.getTimestamp()).remove(message);
-                groupMessageMap.get(userGroup).remove(message); //this message deleted form group also
-            }
-        }
-
-        int updatedUsersInGroup = groupUserMap.get(userGroup).size();
-        int updatedMessagesInGroup = groupMessageMap.get(userGroup).size();
-
-        /**int updatedMessagesOfAllGroups = 0; //O(N)
-         for (Group group : groupMessageMap.keySet()) {
-         updatedMessagesOfAllGroups += groupMessageMap.get(group).size();
-         }
-         **/
-        int updatedMessagesOfAllGroups = senderMap.size(); //O(1)
-        return updatedUsersInGroup + updatedMessagesInGroup + updatedMessagesOfAllGroups;
-    }
+//    public int removeUser(User user) throws Exception {
+//        //If the user is not found in any group, the application will throw an exception.
+//        if(!checkUserInAllGroups(user))
+//            throw new Exception("User not found");
+//        else { //If the user is found in a group and is the admin, the application will throw an exception.
+//            if (adminMap.get(userGroup).equals(user))
+//                throw new Exception("Cannot remove admin");
+//        }
+//
+//        //valid user to remove
+//        if(groupUserMap.containsKey(userGroup)) {
+//            groupUserMap.get(userGroup).remove(user); //taken list and removed user
+//        }
+//        //remove all its messages
+//        for (Message message : senderMap.keySet()) {
+//            if(senderMap.get(message).equals(user)) {
+//                senderMap.remove(message); //message is a key
+//                dateMessageMap.get(message.getTimestamp()).remove(message);
+//                groupMessageMap.get(userGroup).remove(message); //this message deleted form group also
+//            }
+//        }
+//
+//        int updatedUsersInGroup = groupUserMap.get(userGroup).size();
+//        int updatedMessagesInGroup = groupMessageMap.get(userGroup).size();
+//
+//        /**int updatedMessagesOfAllGroups = 0; //O(N)
+//         for (Group group : groupMessageMap.keySet()) {
+//         updatedMessagesOfAllGroups += groupMessageMap.get(group).size();
+//         }
+//         **/
+//        int updatedMessagesOfAllGroups = senderMap.size(); //O(1)
+//        return updatedUsersInGroup + updatedMessagesInGroup + updatedMessagesOfAllGroups;
+//    }
 
 
 
